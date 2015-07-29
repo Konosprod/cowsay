@@ -1,4 +1,4 @@
-cowsay
+# cowsay
 ======
 
-Useless program.
+A port of the Tony Monroe cowsay.
