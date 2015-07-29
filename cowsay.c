@@ -2,19 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 char* cow[] = {"     \\   ^__^                 ",                
                "      \\  (OO)\\__________    ",
                "         (__)\\          )\\/\\",
                "              | |----W  |   ",
                "              | |     | |   "};
-/*
-char* cow[] = {"   | ",
-               "   | ",
-               "  @ _ @", 
-               " (='o'=)",  
-               " *(___)*"};
-*/
 
 void print_cow(void);
 void print_message(char*, int);
@@ -41,6 +33,12 @@ int main(int argc, char* argv[])
     {
         printf("Entrez le message que vous voulez afficher : \n");
         scanf("%[^\n]s", message);
+
+	if (strlen(message) > 255){
+	  printf("Usage: 255 character limit\n");
+	  exit(EXIT_FAILURE);
+	}	 
+
         printf("\n\n");
         
         if((length = strlen(message)) < 42)
@@ -52,9 +50,10 @@ int main(int argc, char* argv[])
             print_message_multilines(message, length);
         }
     }
+   
     print_cow();
     clean_stdin();
-    getchar();
+    printf("\n");
     
     return 0;
 }
@@ -70,7 +69,8 @@ void clean_stdin(void)
 
 void print_cow(void)
 {
-    for(int i = 0; i < 5; i++)
+    int i;
+    for(i = 0; i < 5; i++)
     {
         printf("%s\n", cow[i]);
     }
@@ -81,20 +81,22 @@ void print_message_multilines(char* message, int length)
     int nb_chunk = (length/42)+1;
     char** strings = calloc(nb_chunk, sizeof(char*));
     
-    for(int i = 0; i < nb_chunk; i++)
+    int i;
+    int j;
+    for(i = 0; i < nb_chunk; i++)
     {
         strings[i] = calloc(43, sizeof(char));
     }
     
-    for(int i = 0; i < nb_chunk; i++)
+    for(i = 0; i < nb_chunk; i++)
     {
-        for(int j = 0; j < 42; j++)
+        for(j = 0; j < 42; j++)
         {
             strings[i][j] = message[i*42+j];
         }
     }
     
-    for(int i =(length%42); i < 42; i++)
+    for(i =(length%42); i < 42; i++)
     {
         strings[nb_chunk-1][i] = ' ';
     }
@@ -103,14 +105,14 @@ void print_message_multilines(char* message, int length)
     putc(' ', stdout);
     putc('/', stdout);
     
-    for(int i = 0; i < strlen(strings[0]); i++)
+    for(i = 0; i < strlen(strings[0]); i++)
     {
         putc('-', stdout);
     }
     putc('\\', stdout);
     putc('\n', stdout);
     
-    for(int i = 0; i < nb_chunk; i++)
+    for(i = 0; i < nb_chunk; i++)
     {
         printf("| %s |\n", strings[i]);
     }
@@ -118,14 +120,14 @@ void print_message_multilines(char* message, int length)
     putc(' ', stdout);
     putc('\\', stdout);
     
-    for(int i = 0; i < strlen(strings[0]); i++)
+    for(i = 0; i < strlen(strings[0]); i++)
     {
         putc('-', stdout);
     }
     putc('/', stdout);
     putc('\n', stdout);
     
-    for(int i = 0; i < nb_chunk+1; i++)
+    for(i = 0; i < nb_chunk-1; i++)
     {
         free(strings[i]);
     }
@@ -138,7 +140,9 @@ void print_message(char* message, int length)
     int message_length = length;
     
     putc(' ', stdout);
-    for(int i = 0; i < message_length+1; i++)
+    
+    int i;
+    for(i = 0; i < message_length+1; i++)
     {
         putc('_', stdout);
     }
@@ -148,7 +152,7 @@ void print_message(char* message, int length)
     
     printf("%s>\n", message);
     putc(' ', stdout);
-    for(int i = 0; i < message_length+1; i++)
+    for(i = 0; i < message_length+1; i++)
     {
         putc('-', stdout);
     }
