@@ -52,9 +52,9 @@ int main(int argc, char* argv[])
     }
    
     print_cow();
-    clean_stdin();
+    //clean_stdin();
     printf("\n");
-    
+    exit(EXIT_SUCCESS);
     return 0;
 }
 
@@ -65,6 +65,8 @@ void clean_stdin(void)
     do {
         c = getchar();
     } while (c != '\n' && c != EOF);
+
+    exit(EXIT_SUCCESS);
 }
 
 void print_cow(void)
